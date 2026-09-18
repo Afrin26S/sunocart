@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunoCart | Team Suno</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">सुनो</span>
+    <div>
+      <h1>SunoCart</h1>
+      <p>Speak what you need. Never lose your warranty.</p>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="panel voice-panel">
+    <h2>What are you looking for?</h2>
+    <p class="hint">Tap the mic and speak in Hindi or English — or just type below.</p>
+
+    <div class="controls-row">
+      <select id="language" aria-label="Choose language">
+        <option value="hi-IN">हिंदी</option>
+        <option value="en-IN">English</option>
+      </select>
+      <button id="voiceButton" class="btn btn-primary" type="button">
+        <span aria-hidden="true">🎤</span> Speak
+      </button>
+    </div>
+
+    <textarea
+      id="query"
+      rows="3"
+      placeholder="मुझे ₹3000 के अंदर वायरलेस हेडफोन्स चाहिए..."
+    ></textarea>
+
+    <button id="searchButton" class="btn btn-accent" type="button">Find Products</button>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Products</h2>
+    <div id="products" class="products"></div>
+  </section>
+
+</main>
+
+<footer class="footer">Team Suno · Built for First Commit, WeMakeDevs × AWS</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+[
+  {
+    "product_id": "P001",
+    "name": "Demo Wireless Headphones",
+    "category": "headphones",
+    "price": 2499,
+    "brand": "DemoSound",
+    "description": "Wireless over-ear headphones with Bluetooth connectivity and a rechargeable battery.",
+    "features": ["Bluetooth", "Over-ear design", "Rechargeable battery"]
+  },
+  {
+    "product_id": "P002",
+    "name": "Demo Mixer Grinder",
+    "category": "mixer grinder",
+    "price": 1899,
+    "brand": "DemoKitchen",
+    "description": "Household mixer grinder with multiple jars, suitable for everyday kitchen use.",
+    "features": ["Multiple jars", "Multiple speed settings", "Household use"]
+  },
+  {
+    "product_id": "P003",
+    "name": "Demo Bluetooth Speaker",
+    "category": "speaker",
+    "price": 1599,
+    "brand": "DemoAudio",
+    "description": "Portable Bluetooth speaker for everyday listening at home.",
+    "features": ["Bluetooth", "Portable", "Rechargeable"]
+  },
+  {
+    "product_id": "P004",
+    "name": "Demo Laptop Backpack",
+    "category": "backpack",
+    "price": 1299,
+    "brand": "DemoCarry",
+    "description": "Laptop backpack with a padded compartment and multiple pockets.",
+    "features": ["Laptop compartment", "Multiple pockets", "Padded straps"]
+  },
+  {
+    "product_id": "P005",
+    "name": "Demo Smart Watch",
+    "category": "smartwatch",
+    "price": 2799,
+    "brand": "DemoTech",
+    "description": "Smartwatch with activity tracking and smartphone notifications.",
+    "features": ["Activity tracking", "Notifications", "Digital display"]
+  },
+  {
+    "product_id": "P006",
+    "name": "Demo Electric Kettle",
+    "category": "kettle",
+    "price": 1199,
+    "brand": "DemoHome",
+    "description": "Electric kettle for everyday household use, with automatic shutoff.",
+    "features": ["Fast heating", "Automatic shutoff", "Stainless steel body"]
+  }
+]
