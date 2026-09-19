@@ -1,9 +1,20 @@
 import json
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PRODUCT_FILE = os.path.join(BASE_DIR, "data", "products.json")
 
+def _find_products_file():
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(os.path.dirname(here), "data", "products.json"),  # local dev layout
+        os.path.join(here, "products.json"),  # Lambda: bundled next to this file
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    raise FileNotFoundError("products.json not found in any expected location")
+
+
+PRODUCT_FILE = _find_products_file()
 
 def load_products():
     with open(PRODUCT_FILE, "r", encoding="utf-8") as file:
