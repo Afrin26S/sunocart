@@ -50,6 +50,34 @@
     <div id="products" class="products"></div>
   </section>
 
+    <section class="panel">
+    <h2>Warranty Wallet</h2>
+    <p class="hint">Upload a photo of your invoice (JPG or PNG) to save the warranty.</p>
+
+    <input type="file" id="invoiceFile" accept=".jpg,.jpeg,.png">
+    <button id="extractButton" class="btn btn-primary" type="button" style="margin-left:10px;">Extract Details</button>
+
+    <p id="extractStatus" class="status" role="status" aria-live="polite"></p>
+
+    <div id="confirmForm" style="display:none; margin-top:10px;">
+      <label>Product name<br>
+        <input type="text" id="fieldProductName" style="width:100%; padding:10px; margin:6px 0 14px; border-radius:8px; border:1px solid var(--border); font:inherit;">
+      </label>
+      <label>Purchase date<br>
+        <input type="text" id="fieldPurchaseDate" style="width:100%; padding:10px; margin:6px 0 14px; border-radius:8px; border:1px solid var(--border); font:inherit;">
+      </label>
+      <label>Warranty details<br>
+        <input type="text" id="fieldWarrantyText" style="width:100%; padding:10px; margin:6px 0 14px; border-radius:8px; border:1px solid var(--border); font:inherit;">
+      </label>
+      <button id="saveWarrantyButton" class="btn btn-accent" type="button">Save Warranty</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Your Warranties</h2>
+    <div id="warrantyList" class="products"></div>
+  </section>
+
 </main>
 
 <footer class="footer">Team Suno · Built for First Commit, WeMakeDevs × AWS</footer>

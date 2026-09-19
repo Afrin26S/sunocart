@@ -97,4 +97,112 @@ function speak(message) {
   utterance.rate = 0.95;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
+}// --- WarrantyWallet ---
+const invoiceFileInput = document.getElementById("invoiceFile");
+const extractButton = document.getElementById("extractButton");
+const extractStatus = document.getElementById("extractStatus");
+const confirmForm = document.getElementById("confirmForm");
+const fieldProductName = document.getElementById("fieldProductName");
+const fieldPurchaseDate = document.getElementById("fieldPurchaseDate");
+const fieldWarrantyText = document.getElementById("fieldWarrantyText");
+const saveWarrantyButton = document.getElementById("saveWarrantyButton");
+const warrantyListEl = document.getElementById("warrantyList");
+
+let currentS3Key = null;
+
+extractButton.addEventListener("click", async () => {
+  const file = invoiceFileInput.files[0];
+  if (!file) {
+    extractStatus.textContent = "Please choose an invoice image first.";
+    return;
+  }
+
+  extractStatus.textContent = "Uploading and reading the invoice...";
+  confirmForm.style.display = "none";
+
+  const formData = new FormData();
+  formData.append("invoice", file);
+
+  try {
+    const response = await fetch(`${API_URL}/api/warranty/extract`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Extraction failed");
+
+    fieldProductName.value = data.product_name || "";
+    fieldPurchaseDate.value = data.purchase_date || "";
+    fieldWarrantyText.value = data.warranty_text || "";
+    currentS3Key = data.s3_key;
+
+    confirmForm.style.display = "block";
+    extractStatus.textContent = "Review the details below, fix anything wrong, then save.";
+  } catch (error) {
+    console.error(error);
+    extractStatus.textContent = `Error: ${error.message}`;
+  }
+});
+
+saveWarrantyButton.addEventListener("click", async () => {
+  const payload = {
+    product_name: fieldProductName.value.trim(),
+    purchase_date: fieldPurchaseDate.value.trim(),
+    warranty_text: fieldWarrantyText.value.trim(),
+    s3_key: currentS3Key,
+  };
+
+  if (!payload.product_name) {
+    extractStatus.textContent = "Product name is required.";
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/warranty/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Save failed");
+
+    extractStatus.textContent = "Saved!";
+    confirmForm.style.display = "none";
+    invoiceFileInput.value = "";
+    loadWarranties();
+  } catch (error) {
+    console.error(error);
+    extractStatus.textContent = `Error: ${error.message}`;
+  }
+});
+
+async function loadWarranties() {
+  try {
+    const response = await fetch(`${API_URL}/api/warranty/list`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Could not load warranties");
+    renderWarranties(data.items || []);
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+function renderWarranties(items) {
+  if (!items.length) {
+    warrantyListEl.innerHTML = "<p>No warranties saved yet.</p>";
+    return;
+  }
+  warrantyListEl.innerHTML = "";
+  items.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML = `
+      <h3>${escapeHtml(item.product_name)}</h3>
+      <p class="product-meta">Purchased: ${escapeHtml(item.purchase_date || "unknown")}</p>
+      <p>${escapeHtml(item.warranty_text || "No warranty details recorded")}</p>
+    `;
+    warrantyListEl.appendChild(card);
+  });
+}
+
+loadWarranties();
