@@ -50,7 +50,7 @@
     <div id="products" class="products"></div>
   </section>
 
-    <section class="panel">
+  <section class="panel">
     <h2>Warranty Wallet</h2>
     <p class="hint">Upload a photo of your invoice (JPG or PNG) to save the warranty.</p>
 
@@ -76,6 +76,20 @@
   <section class="panel">
     <h2>Your Warranties</h2>
     <div id="warrantyList" class="products"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Ask About Your Warranty</h2>
+    <p class="hint">Ask in Hindi or English — e.g. "Mera mixer ka warranty kab tak hai?"</p>
+
+    <div class="controls-row">
+      <button id="askVoiceButton" class="btn btn-primary" type="button">🎤 Speak</button>
+    </div>
+
+    <textarea id="askQuery" rows="2" placeholder="Mera mixer ka warranty kab tak hai?"></textarea>
+    <button id="askButton" class="btn btn-accent" type="button" style="margin-top:8px;">Ask</button>
+
+    <p id="askStatus" class="status" role="status" aria-live="polite"></p>
   </section>
 
 </main>

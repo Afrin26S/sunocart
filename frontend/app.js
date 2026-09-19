@@ -90,14 +90,16 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function speak(message) {
+function speak(message, lang) {
   if (!("speechSynthesis" in window)) return;
   const utterance = new SpeechSynthesisUtterance(message);
-  utterance.lang = languageSelect.value;
+  utterance.lang = lang || languageSelect.value;
   utterance.rate = 0.95;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
-}// --- WarrantyWallet ---
+}
+
+// --- WarrantyWallet ---
 const invoiceFileInput = document.getElementById("invoiceFile");
 const extractButton = document.getElementById("extractButton");
 const extractStatus = document.getElementById("extractStatus");
@@ -206,3 +208,59 @@ function renderWarranties(items) {
 }
 
 loadWarranties();
+
+// --- Warranty voice lookup ---
+const askVoiceButton = document.getElementById("askVoiceButton");
+const askButton = document.getElementById("askButton");
+const askQuery = document.getElementById("askQuery");
+const askStatus = document.getElementById("askStatus");
+
+let askRecognition = null;
+if (SpeechRecognitionImpl) {
+  askRecognition = new SpeechRecognitionImpl();
+  askRecognition.continuous = false;
+  askRecognition.interimResults = false;
+
+  askVoiceButton.addEventListener("click", () => {
+    askRecognition.lang = languageSelect.value;
+    askStatus.textContent = "🎧 Listening...";
+    try { askRecognition.start(); } catch (err) {}
+  });
+
+  askRecognition.onresult = (event) => {
+    askQuery.value = event.results[0][0].transcript;
+    askStatus.textContent = "Voice captured. Tap Ask.";
+  };
+
+  askRecognition.onerror = () => {
+    askStatus.textContent = "Voice input failed — you can type instead.";
+  };
+} else {
+  askVoiceButton.disabled = true;
+}
+
+askButton.addEventListener("click", async () => {
+  const text = askQuery.value.trim();
+  if (!text) {
+    askStatus.textContent = "Please speak or type a question first.";
+    return;
+  }
+
+  askStatus.textContent = "Checking...";
+
+  try {
+    const response = await fetch(`${API_URL}/api/warranty/ask`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Request failed");
+
+    askStatus.textContent = data.message;
+    speak(data.message, data.language === "hi" ? "hi-IN" : "en-IN");
+  } catch (error) {
+    console.error(error);
+    askStatus.textContent = `Error: ${error.message}`;
+  }
+});

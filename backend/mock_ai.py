@@ -57,14 +57,21 @@ CATEGORY_MAP = {
 }
 
 
+def detect_language(text: str) -> str:
+    """Shared language detector: Devanagari script (real voice input) or
+    Romanized Hindi markers (typed Hinglish) both count as Hindi. Reused
+    by warranty_lookup.py so both features detect language the same way."""
+    is_devanagari = bool(DEVANAGARI_RANGE.search(text))
+    text_lower = text.lower()
+    return "hi" if is_devanagari or any(word in text_lower for word in HINDI_MARKERS) else "en"
+
+
 def extract_shopping_intent(text: str) -> dict:
     """Very small rule-based stand-in for Bedrock intent extraction."""
     text_lower = text.lower()
 
-    # 1. language — Devanagari script is the reliable signal for real voice
-    #    input; the Romanized word list catches typed Hinglish as a fallback.
-    is_devanagari = bool(DEVANAGARI_RANGE.search(text))
-    language = "hi" if is_devanagari or any(word in text_lower for word in HINDI_MARKERS) else "en"
+    # 1. language
+    language = detect_language(text)
 
     # 2. budget — try a few common phrasings, in order:
     max_price = None

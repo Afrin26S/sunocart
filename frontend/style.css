@@ -3,12 +3,12 @@
   --navy-light: #27395f;
   --marigold: #e8a33d;
   --marigold-dark: #c17f1f;
-  --bg: #eef2f8;
+  --bg: #e1e7f0;
   --surface: #ffffff;
   --text: #1b2230;
-  --text-muted: #57607a;
+  --text-muted: #4e5773;
   --border: #dbe2ee;
-  --price: #1f7a4d;
+  --price: #22533a;
 }
 
 * { box-sizing: border-box; }

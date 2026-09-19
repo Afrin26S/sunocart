@@ -13,6 +13,7 @@ from mock_ai import extract_shopping_intent  # swap for bedrock_ai later (curren
 from product_search import search_products
 from explain import explain_results
 from warranty_extract import guess_invoice_fields
+from warranty_lookup import find_warranty
 
 load_dotenv()
 
@@ -147,5 +148,24 @@ def warranty_list():
         return jsonify({"error": f"AWS error: {error.response['Error']['Message']}"}), 500
 
 
+@app.post("/api/warranty/ask")
+def warranty_ask():
+    """Voice/text warranty lookup, e.g. 'Mera mixer ka warranty kab tak hai?'
+    Reads whatever is actually saved in DynamoDB — never invents an answer."""
+    data = request.get_json(silent=True) or {}
+    query_text = str(data.get("text", "")).strip()
+    if not query_text:
+        return jsonify({"error": "Please ask a question."}), 400
+
+    try:
+        response = warranty_table.query(KeyConditionExpression=Key("user_id").eq(USER_ID))
+        items = response.get("Items", [])
+        result = find_warranty(items, query_text)
+        return jsonify(result)
+    except ClientError as error:
+        print("Warranty ask error:", error)
+        return jsonify({"error": f"AWS error: {error.response['Error']['Message']}"}), 500
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+
