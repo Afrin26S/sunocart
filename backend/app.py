@@ -6,7 +6,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 from mock_ai import extract_shopping_intent  # swap for bedrock_ai later (currently blocked — see notes)
@@ -26,6 +26,23 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 CORS(app)
+
+FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static_frontend")
+
+
+@app.get("/")
+def serve_index():
+    return send_from_directory(FRONTEND_DIR, "index.html")
+
+
+@app.get("/style.css")
+def serve_css():
+    return send_from_directory(FRONTEND_DIR, "style.css")
+
+
+@app.get("/app.js")
+def serve_js():
+    return send_from_directory(FRONTEND_DIR, "app.js")
 
 s3_client = boto3.client("s3", region_name=AWS_REGION)
 textract_client = boto3.client("textract", region_name=AWS_REGION)
