@@ -4,9 +4,8 @@
 
 Built solo by **Team Suno** for [First Commit](https://www.wemakedevs.org/aws/first-commit) — WeMakeDevs × AWS Bharat Builds Tour.
 
-🔗 **Live app:** https://fzklqgngx6.execute-api.ap-south-1.amazonaws.com/
-📝 **Blog / build story:** _(https://builder.aws.com/content/3JauB5bXBP5kI0sPFIJtmlPGZkR/my-dadi-cant-use-shopping-apps-so-i-built-one-with-aws-that-talks-back-team-suno-first-commit-wemakedevs-aws-bharat-builds-tour
-)_
+🔗 **Live app:** https://fzklqgngx6.execute-api.ap-south-1.amazonaws.com/ 
+📝 **Blog / build story:** _(https://builder.aws.com/content/3JauB5bXBP5kI0sPFIJtmlPGZkR/my-dadi-cant-use-shopping-apps-so-i-built-one-with-aws-that-talks-back-team-suno-first-commit-wemakedevs-aws-bharat-builds-tour)_
 
 ---
 
@@ -38,6 +37,7 @@ The two features share one underlying idea: discover → buy → save the invoic
 **On Bedrock:** Amazon Bedrock access was blocked at the AWS account level days before submission. Per the organizers' own guidance that Bedrock isn't required for this track, the intent-extraction (`mock_ai.py`) and invoice-structuring (`warranty_extract.py`) layers run as rule-based modules instead, built with the same input/output contract a Bedrock call would use — a one-line swap once access clears.
 
 ## Project structure
+
 SunoCart/
 ├── backend/
 │ ├── app.py # Flask app — all API routes
