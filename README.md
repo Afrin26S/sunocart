@@ -5,7 +5,8 @@
 Built solo by **Team Suno** for [First Commit](https://www.wemakedevs.org/aws/first-commit) — WeMakeDevs × AWS Bharat Builds Tour.
 
 🔗 **Live app:** https://fzklqgngx6.execute-api.ap-south-1.amazonaws.com/
-📝 **Blog / build story:** _(add your AWS Builder Center link here once published)_
+📝 **Blog / build story:** _(https://builder.aws.com/content/3JauB5bXBP5kI0sPFIJtmlPGZkR/my-dadi-cant-use-shopping-apps-so-i-built-one-with-aws-that-talks-back-team-suno-first-commit-wemakedevs-aws-bharat-builds-tour
+)_
 
 ---
 
@@ -67,7 +68,7 @@ pip install -r requirements.txt
 
 Create `backend/.env`:
 AWS_REGION=ap-south-1
-S3_BUCKET=<your-invoices-bucket>
+S3_BUCKET=<S3_BUCKET=sunocart-invoices-afrin-2026>
 DYNAMODB_TABLE=SunoCartWarranty
 USER_ID=demo-user-001
 
